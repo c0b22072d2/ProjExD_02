@@ -1,3 +1,4 @@
+import math
 import random
 import sys
 
@@ -24,11 +25,41 @@ def check_bound(scr_rct: pg.Rect, obj_rct:pg.Rect) -> tuple[bool, bool]:
     if obj_rct.top < scr_rct.top or scr_rct.bottom < obj_rct.bottom:
         tate=False
     return yoko,tate
+
+#追加機能4(未完成)
+def update_bomb(bomb_rect, kk_rect):
+
+    diff_vec = kk_rect.centerx - bomb_rect.centerx, kk_rect.centery - bomb_rect.centery
+
+
+    norm = math.sqrt(diff_vec[0] ** 2 + diff_vec[1] ** 2)
+    if norm != 0:
+        norm_diff_vec = diff_vec[0] / norm, diff_vec[1] / norm
+    else:
+        norm_diff_vec = 0, 0
+
+    speed = 5
+
+    new_x = bomb_rect.centerx + int(speed * norm_diff_vec[0])
+    new_y = bomb_rect.centery + int(speed * norm_diff_vec[1])
+
+
+    if norm < 500:
+        new_x += int(0.5 * speed * norm_diff_vec[0])
+        new_y += int(0.5 * speed * norm_diff_vec[1])
+
+    bomb_rect.centerx = new_x
+    bomb_rect.centery = new_y
+    return bomb_rect,kk_rect
+
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((1400, 700))
     clock = pg.time.Clock()
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
+    bb_imgs=[]
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     bb_img = pg.Surface((20,20))
@@ -42,6 +73,8 @@ def main():
     kk_rct=kk_img.get_rect()  #練習4
     kk_rct.center=900,400  #練習4
     tmr=0
+
+
 
 
     while True:
@@ -71,10 +104,17 @@ def main():
         screen.blit(bb_img, bb_rct)  #練習3
         if kk_rct.colliderect(bb_rct):  #練習6
             return
-        
+
+
+# 追加機能2
+        for r in range(1,11):
+            bb_img=pg.Surface((20*r,20*r))
+            pg.draw.circle(bb_img,(255,0,0),(10*r,10*r),10*r)
+            bb_imgs.append(bb_img)
+            bb_img.set_colorkey((0,0,0))
+        bb_img=bb_imgs[min(tmr//1000,9)]
         pg.display.update()
         clock.tick(1000)
-
 
 if __name__ == "__main__":
     pg.init()
