@@ -15,7 +15,7 @@ dalta = {
 def check_bound(scr_rct: pg.Rect, obj_rct:pg.Rect) -> tuple[bool, bool]:
     """
     オブジェクトが画面内or画面外を判定し、真理値タプルを返す関数
-    引数1：画面SurfaceのRect
+    引数1：画面SurfaceのRectです
     引数2：こうかとん、または、爆弾SurfaceのRect
     戻り値：横方向、縦方向のはみだし判定結果(画面内：True/画面外：False)
     """
