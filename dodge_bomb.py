@@ -3,6 +3,15 @@ import sys
 
 import pygame as pg
 
+#練習4
+dalta = {
+    pg.K_UP: (0,-1),
+    pg.K_DOWN: (0,+1),
+    pg.K_LEFT: (-1,0),
+    pg.K_RIGHT: (+1,0),
+}
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((1400, 700))
@@ -18,7 +27,10 @@ def main():
     vx,vy=+1,+1
     bb_rct = bb_img.get_rect()
     bb_rct.center = x, y
+    kk_rct=kk_img.get_rect()  #練習4
+    kk_rct.center=900,400  #練習4
     tmr=0
+
 
     while True:
         for event in pg.event.get():
@@ -26,12 +38,18 @@ def main():
                 return 0
 
         tmr += 1
+
+        key_lst = pg.key.get_pressed()
+        for k, mv in dalta.items():
+            if key_lst[k]:
+                kk_rct.move_ip(mv)
+
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, [900, 400])
-        bb_rct.move_ip(vx,vy)
-        screen.blit(bb_img, bb_rct)
+        screen.blit(kk_img, kk_rct ) #練習4
+        bb_rct.move_ip(vx,vy)  #練習3
+        screen.blit(bb_img, bb_rct)  #練習3
         pg.display.update()
-        clock.tick(250)
+        clock.tick(1000)
 
 
 if __name__ == "__main__":
