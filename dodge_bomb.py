@@ -5,7 +5,7 @@ import pygame as pg
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
-    screen = pg.display.set_mode((1600, 900))
+    screen = pg.display.set_mode((1400, 700))
     clock = pg.time.Clock()
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
@@ -13,7 +13,11 @@ def main():
     bb_img = pg.Surface((20,20))
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)  #練習Ⅰ
     bb_img.set_colorkey((0,0,0))  #練習Ⅰ
-    x, y = random.randint(0,1600), random.randint(0,900)
+    x, y = random.randint(0,1600), random.randint(0,900)  #練習2
+    screen.blit(bb_img, [x,y]) #練習2
+    vx,vy=+1,+1
+    bb_rct = bb_img.get_rect()
+    bb_rct.center = x, y
     tmr=0
 
     while True:
@@ -24,10 +28,10 @@ def main():
         tmr += 1
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
-        screen.blit(bb_img, [300,300])  #練習Ⅰ
-        screen.blit(bb_img, [x,y])
+        bb_rct.move_ip(vx,vy)
+        screen.blit(bb_img, bb_rct)
         pg.display.update()
-        clock.tick(1000)
+        clock.tick(250)
 
 
 if __name__ == "__main__":
