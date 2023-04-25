@@ -28,30 +28,21 @@ def check_bound(scr_rct: pg.Rect, obj_rct:pg.Rect) -> tuple[bool, bool]:
 
 #追加機能4(未完成)
 def update_bomb(bomb_rect, kk_rect):
-
     diff_vec = kk_rect.centerx - bomb_rect.centerx, kk_rect.centery - bomb_rect.centery
-
-
     norm = math.sqrt(diff_vec[0] ** 2 + diff_vec[1] ** 2)
     if norm != 0:
         norm_diff_vec = diff_vec[0] / norm, diff_vec[1] / norm
     else:
         norm_diff_vec = 0, 0
-
     speed = 5
-
     new_x = bomb_rect.centerx + int(speed * norm_diff_vec[0])
     new_y = bomb_rect.centery + int(speed * norm_diff_vec[1])
-
-
     if norm < 500:
         new_x += int(0.5 * speed * norm_diff_vec[0])
         new_y += int(0.5 * speed * norm_diff_vec[1])
-
     bomb_rect.centerx = new_x
     bomb_rect.centery = new_y
     return bomb_rect,kk_rect
-
 
 
 def main():
